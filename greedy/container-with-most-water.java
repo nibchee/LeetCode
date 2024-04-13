@@ -1,15 +1,22 @@
 class Solution {
     public int maxArea(int[] height) {
+        //Here we need to just find max Water between 2 verticle lines
+        //Simple Logic: Max Water= Length* Breadth
         
-        int max_water=0;
-        for(int i=0,j=height.length-1;i<j;){
-            int current_water=(j-i)*Math.min(height[i],height[j]);
-             max_water=Math.max(current_water,max_water);
+        int i=0;
+        int j=height.length-1;
+        int maxWater=0;
+        while(i<j){
+            maxWater=Math.max(Math.min(height[i],height[j])*(j-i),maxWater);
             if(height[i]<height[j])
             i++;
-            else
+           else if(height[j]<height[i]){
             j--;
+           }else{
+            i++;
+            j--;
+           }
         }
-    return max_water;
+    return maxWater;
     }
 }
