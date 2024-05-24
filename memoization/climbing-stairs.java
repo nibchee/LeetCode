@@ -14,13 +14,12 @@ int[]dp;
         return dp[n];
       
         if(n==0||n==1){
-dp[n]=1;
-return dp[n];
+return dp[n]=1;
         }
          
         int left=helper(n-1);
         int right=helper(n-2);
-        dp[n]=left+right;
-        return dp[n];
+     
+        return    dp[n]=left+right;
     }
 }
