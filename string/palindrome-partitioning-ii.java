@@ -23,7 +23,19 @@ class Solution {
     }
     public int minCut(String s) {
         int n=s.length();
-        dp=new int[n];
-        return helper(0,s)-1;
+        dp=new int[n+1];
+        for(int i=n-1;i>=0;i--){
+             int min_cuts=Integer.MAX_VALUE;
+             for(int j=i;j<s.length();j++){
+            if(isPallindrome(i,j,s)){
+              int cuts=1+dp[j+1];
+              min_cuts=Math.min(min_cuts,cuts);
+            }
+        }
+          dp[i]= min_cuts; 
+        }
+
+       // return helper(0,s)-1;
+       return dp[0]-1;
     }
 }
