@@ -26,23 +26,20 @@ public:
             }
         }
             
-           // Print adjacency list
-        cout << "Adjacency list:" << endl;
-        for (const auto& pair : m) {
-            cout << pair.first << ": ";
-            for (const auto& neighbor : pair.second) {
-                cout << neighbor << " ";
-            }
-            cout << endl;
-        }
+        //   for(int i=0;i<n;i++){
+        //         string a=wordList[i];cout<<a<<"     ";
+        //         for(auto j:m[a]){
+        //             cout<<j<<" ";
+        //         }
+        //         cout<<" "<<endl;
+        //     }
 
-        // BFS initialization
-        set<string> s(wordList.begin(), wordList.end());
-        queue<pair<int, string>> q;
-        q.push({1, beginWord});
-        s.erase(beginWord);  // mark beginWord as visited
 
-        // BFS loop
+        set<string>s(wordList.begin(),wordList.end());
+            queue<pair<int,string>>q;
+            q.push({1,beginWord});
+            s.insert(beginWord);
+
         while (!q.empty()) {
             pair<int, string> p = q.front();
             q.pop();
@@ -56,7 +53,7 @@ public:
             for (const string& neighbor : m[r]) {
                 if (s.find(neighbor) != s.end()) {
                     q.push({level + 1, neighbor});
-                    s.erase(neighbor);  // mark neighbor as visited
+                    s.erase(neighbor); 
                 }
             }
         }
@@ -64,3 +61,5 @@ public:
         return 0;
     }
 };
+
+  
