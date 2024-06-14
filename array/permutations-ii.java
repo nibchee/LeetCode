@@ -4,42 +4,42 @@ class Solution {
 
     public List<List<Integer>> permuteUnique(int[] nums) {
         n = nums.length;
-        Map<Integer, Integer> mp = new HashMap<>();
 
-        // Count the occurrence of each number
-        for (int num : nums) {
-            mp.put(num, mp.getOrDefault(num, 0) + 1);
-        }
-
-        List<Integer> temp = new ArrayList<>();
-        backtrack(temp, mp);
+        solve(0, nums);
 
         return result;
     }
 
-    private void backtrack(List<Integer> temp, Map<Integer, Integer> mp) {
-        if (temp.size() == n) { // We got all numbers
-            result.add(new ArrayList<>(temp));
+    private void solve(int idx, int[] nums) {
+        if (idx == n) {
+            List<Integer> permutation = new ArrayList<>();
+            for (int num : nums) {
+                permutation.add(num);
+            }
+            result.add(permutation);
             return;
         }
 
-        for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
-            int num = entry.getKey();
-            int count = entry.getValue();
+        Set<Integer> uniqueSet = new HashSet<>();
+        for (int i = idx; i < n; i++) {
 
-            if (count == 0)
+            if (uniqueSet.contains(nums[i])) {
                 continue;
+            }
 
-            // Do something
-            temp.add(num);
-            mp.put(num, count - 1);
+            uniqueSet.add(nums[i]);
 
-            // Explore it
-            backtrack(temp, mp);
+            swap(nums, i, idx);
 
-            // Undo it
-            temp.remove(temp.size() - 1);
-            mp.put(num, count);
+            solve(idx + 1, nums);
+
+            swap(nums, i, idx);
         }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
