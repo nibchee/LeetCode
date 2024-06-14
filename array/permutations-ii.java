@@ -1,28 +1,45 @@
 class Solution {
-    public List<List<Integer>> permuteUnique(int[] nums) {
-        Arrays.sort(nums);
-         List<List<Integer>> ans=new ArrayList<>();
-       ArrayList<Integer> indices=new ArrayList<>();
-        permute(nums,indices,ans);
-        return ans;
-    }
-    
-     private void permute(int[] nums,ArrayList<Integer> indices,List<List<Integer>> ans){
+    private List<List<Integer>> result = new ArrayList<>();
+    private int n;
 
-       if(indices.size()==nums.length){
-        ArrayList<Integer> list=new ArrayList<>();
-        for(Integer i:indices){
-          list.add(nums[i]);
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        n = nums.length;
+        Map<Integer, Integer> mp = new HashMap<>();
+
+        // Count the occurrence of each number
+        for (int num : nums) {
+            mp.put(num, mp.getOrDefault(num, 0) + 1);
         }
-        if(!ans.contains(list))
-        ans.add(list);
-       }
-        for(int i=0;i<nums.length;i++){
-            if(indices.contains(i))
-            continue;
-            indices.add(i);
-            permute(nums,indices,ans);
-            indices.remove(indices.size()-1);
+
+        List<Integer> temp = new ArrayList<>();
+        backtrack(temp, mp);
+
+        return result;
+    }
+
+    private void backtrack(List<Integer> temp, Map<Integer, Integer> mp) {
+        if (temp.size() == n) { // We got all numbers
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+
+        for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
+            int num = entry.getKey();
+            int count = entry.getValue();
+
+            if (count == 0)
+                continue;
+
+            // Do something
+            temp.add(num);
+            mp.put(num, count - 1);
+
+            // Explore it
+            backtrack(temp, mp);
+
+            // Undo it
+            temp.remove(temp.size() - 1);
+            mp.put(num, count);
         }
     }
 }
