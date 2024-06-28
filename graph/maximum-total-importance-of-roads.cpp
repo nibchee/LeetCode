@@ -8,19 +8,16 @@ public:
         }
         priority_queue<pair<int,int>>pq;
         for(int i=0;i<n;i++){
-            int c=0;
-            for(auto it:adj[i]){
-                c++;
-            }
-            cout<<i<<"  "<<c<<endl;
+            int c=adj[i].size();    
             pq.push({c,i});
         }
         int c=n;
         map<int,int>m;
-        while(!pq.empty()){
+        cout<<n<<" "<<pq.size();
+        int k=n;
+        for(int i=0;i<k;i++){
             pair<int,int>p=pq.top();
             m[p.second]=n;
-//            cout<<p.second<<"  "<<n<<endl;
             n--;
             pq.pop();
         }
