@@ -1,22 +1,33 @@
 class Solution {
 public:
     long long maximumImportance(int n, vector<vector<int>>& roads) {
-        vector<long long> degree(n, 0);
-
-        for (vector<int>& edge : roads) {
-            degree[edge[0]]++;
-            degree[edge[1]]++;
+        vector<int>adj[n];
+        for(int i=0;i<roads.size();i++){
+            adj[roads[i][0]].push_back(roads[i][1]);
+            adj[roads[i][1]].push_back(roads[i][0]);
         }
-
-        sort(degree.begin(), degree.end());
-
-        long long value = 1;
-        long long totalImportance = 0;
-        for (long long d : degree) {
-            totalImportance += (value * d);
-            value++;
+        priority_queue<pair<int,int>>pq;
+        for(int i=0;i<n;i++){
+            int c=0;
+            for(auto it:adj[i]){
+                c++;
+            }
+            cout<<i<<"  "<<c<<endl;
+            pq.push({c,i});
         }
-
-        return totalImportance;
+        int c=n;
+        map<int,int>m;
+        while(!pq.empty()){
+            pair<int,int>p=pq.top();
+            m[p.second]=n;
+//            cout<<p.second<<"  "<<n<<endl;
+            n--;
+            pq.pop();
+        }
+        long long sum=0;
+        for(int i=0;i<roads.size();i++){
+            sum+=m[roads[i][0]]+m[roads[i][1]];
+        }
+        return sum;
     }
 };
