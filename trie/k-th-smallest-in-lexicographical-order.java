@@ -1,26 +1,30 @@
 class Solution {
-  int c=0;
-   Integer ans=-1;
+
     public int findKthNumber(int n, int k) {
-         
-      for(int s=1;s<=9;s++){
-        helper(s,n,k);
-        if(c==k)
-        break;
-      } 
-      return ans;
+        int curr = 1;
+        k--;
+
+        while (k > 0) {
+            int step = countSteps(n, curr, curr + 1);
+            if (step <= k) {
+                curr++;
+                k -= step;
+            } else {
+                curr *= 10;
+                k--;
+            }
+        }
+
+        return curr;
     }
 
-     private void helper(int num,int limit,int k){
-      if(num>limit) return;
-      if(c>=k) return;
-      ans=num;
-      c++;
-      
-      for(int nextDigit=0;nextDigit<=9;nextDigit++){
-        int nextNum=num*10+nextDigit;
-        if(nextNum>limit) break;
-        helper(nextNum,limit,k);
-      }
+    private int countSteps(int n, long prefix1, long prefix2) {
+        int steps = 0;
+        while (prefix1 <= n) {
+            steps += Math.min(n + 1, prefix2) - prefix1;
+            prefix1 *= 10;
+            prefix2 *= 10;
+        }
+        return steps;
     }
 }
