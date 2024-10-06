@@ -16,7 +16,8 @@ class Solution {
       }
 
       //System.out.println(i+" "+j+" "+k);
-
+        if(j==-1 || k==-1)
+        return true;
        if(i==l1 && j==-1 && k==-1)
        return true;
 
