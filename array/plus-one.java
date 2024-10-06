@@ -1,9 +1,9 @@
 class Solution {
     public int[] plusOne(int[] digits) {
         int n=digits.length;
-        int r=0;
+        int r=1;
         for(int i=n-1;i>=0;i--){
-                 int s=digits[i]+1;
+                 int s=digits[i]+r;
                  r=s/10;
                  digits[i]=s%10;
         }
