@@ -17,7 +17,9 @@ class Solution {
 
       //System.out.println(i+" "+j+" "+k);
 
-     
+       if(i==l1 && j==-1 && k==-1)
+       return true;
+
        if((j==l1-1 || k==l2-1)&&(i==j+1 || i==k+1))
        return true;
       if((i<l1 && sentence1.charAt(i)==' ')||(j>=0 && sentence1.charAt(j)==' ')||(k>=0 && sentence2.charAt(k)==' '))
