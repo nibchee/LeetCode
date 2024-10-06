@@ -9,6 +9,7 @@ class Solution {
               int k=j;
               while(k+1<n && temp>nums2[k+1]){
                 nums2[k]=nums2[k+1];
+                k++;
               }
               nums2[k]=temp;
            }
