@@ -22,7 +22,7 @@ class Solution {
              j--;
           }
           System.out.println(i+" "+j);
-          if(s.charAt(i-1)==']' && s.charAt(j+1)=='['){
+          if(i!=n && j!=-1 && s.charAt(i-1)==']' && s.charAt(j+1)=='['){
              ans++;
              start++;
              end++;
