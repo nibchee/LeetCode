@@ -22,11 +22,11 @@ class Solution {
     long ans[] = new long[n - k + 1];
 
     while (j < nums.length) {
-      long sum = 0;
+      long sum = 0l;
       for (int y = 0; y < x; y++) {
         int e = pq.remove();
-        //System.out.println("ele " + e + " " + map.get(e));
-        sum += e * map.get(e);
+       // System.out.println("ele " + e + " " + map.get(e));
+        sum += (long)e * (long)map.get(e);
       }
       while (!pq.isEmpty()) {
         pq.remove();
