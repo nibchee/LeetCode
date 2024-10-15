@@ -23,7 +23,7 @@ class Solution {
 
     while (j < nums.length) {
       long sum = 0l;
-      for (int y = 0; y < x; y++) {
+      for (int y = 0; y < x && !pq.isEmpty(); y++) {
         int e = pq.remove();
        // System.out.println("ele " + e + " " + map.get(e));
         sum += (long)e * (long)map.get(e);
