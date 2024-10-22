@@ -18,6 +18,8 @@ class Solution {
         HashMap<Integer,Integer> levelSum=new HashMap<>();
         sum(root,levelSum,0);
         PriorityQueue<Integer> q=new PriorityQueue<>();
+        if(levelSum.keySet().size()<k)
+        return -1;
         for(Integer val: levelSum.values()){
             q.add(val);
             if(q.size()>k)
