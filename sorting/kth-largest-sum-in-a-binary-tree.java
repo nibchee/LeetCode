@@ -15,12 +15,12 @@
  */
 class Solution {
     public long kthLargestLevelSum(TreeNode root, int k) {
-        HashMap<Integer,Integer> levelSum=new HashMap<>();
+        HashMap<Integer,Long> levelSum=new HashMap<>();
         sum(root,levelSum,0);
-        PriorityQueue<Integer> q=new PriorityQueue<>();
+        PriorityQueue<Long> q=new PriorityQueue<>();
         if(levelSum.keySet().size()<k)
         return -1;
-        for(Integer val: levelSum.values()){
+        for(Long val: levelSum.values()){
             q.add(val);
             if(q.size()>k)
             q.remove();
@@ -28,9 +28,9 @@ class Solution {
         return q.peek();
     }
 
-    public void sum(TreeNode root,HashMap<Integer,Integer> m,int level){
+    public void sum(TreeNode root,HashMap<Integer,Long> m,int level){
         if(root!=null){
-            m.put(level,m.getOrDefault(level,0)+root.val);
+            m.put(level,m.getOrDefault(level,0l)+root.val);
         }
 
         if(root.left!=null){
