@@ -24,7 +24,7 @@ class Solution {
         if(root1.val!=root2.val)
         return false;
 
-        boolean no=flipEquiv(root1.left,root2.left) && flipEquiv(root2.left,root1.left) ;
+        boolean no=flipEquiv(root1.left,root2.left) && flipEquiv(root2.right,root1.right) ;
 
         boolean flip=flipEquiv(root1.left,root2.right) && flipEquiv(root1.right,root2.left) ;
 
