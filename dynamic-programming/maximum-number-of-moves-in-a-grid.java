@@ -1,30 +1,41 @@
 class Solution {
     int ans = 0;
-
+    int[][] memo;   
     public int maxMoves(int[][] grid) {
-        // try all possible ways
-        for (int i = 0; i < grid.length; i++) {
-            try_allWays(grid, i, 0, 0);
+        int rows = grid.length;
+        int cols = grid[0].length;
+        memo = new int[rows][cols];
+        
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(memo[i], -1);
+        }
+        
+        for (int i = 0; i < rows; i++) {
+            ans = Math.max(ans, try_allWays(grid, i, 0));
         }
         return ans;
     }
 
-   public void try_allWays(int[][]grid,int row,int col, int moves){
-        ans=Math.max(ans,moves);
+    private int try_allWays(int[][] grid, int row, int col) {
+        if (memo[row][col] != -1) {
+            return memo[row][col];
+        }
+        
+        int moves = 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
 
-    //upper  right
-    if(row-1>=0 && col+1<grid[0].length && grid[row-1][col+1]>grid[row][col]){
-        try_allWays(grid,row-1,col+1,moves+1);
-    }
-      //right
-    if( col+1<grid[0].length && grid[row][col+1]>grid[row][col]){
-        try_allWays(grid,row,col+1,moves+1);
-    }
+        if (row - 1 >= 0 && col + 1 < cols && grid[row - 1][col + 1] > grid[row][col]) {
+            moves = Math.max(moves, 1 + try_allWays(grid, row - 1, col + 1));
+        }
+        if (col + 1 < cols && grid[row][col + 1] > grid[row][col]) {
+            moves = Math.max(moves, 1 + try_allWays(grid, row, col + 1));
+        }
+        if (row + 1 < rows && col + 1 < cols && grid[row + 1][col + 1] > grid[row][col]) {
+            moves = Math.max(moves, 1 + try_allWays(grid, row + 1, col + 1));
+        }
 
-    //down right
-    if( col+1<grid[0].length && row+1<grid.length && grid[row+1][col+1]>grid[row][col]){
-        try_allWays(grid,row+1,col+1,moves+1);
+        memo[row][col] = moves;
+        return moves;
     }
-   }
-
 }
