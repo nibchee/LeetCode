@@ -13,20 +13,28 @@ class Solution {
             }
         }
 
+        int robotCount = robot.size();
+        int factoryCount = factoryPositions.size();
+        long[][] memo = new long[robotCount][factoryCount];
+        for (long[] row : memo) Arrays.fill(row, -1);
+
         // Recursively calculate minimum total distance with memoization
-        return calculateMinDistance(0, 0, robot, factoryPositions);
+        return calculateMinDistance(0, 0, robot, factoryPositions, memo);
     }
 
     private long calculateMinDistance(
         int robotIdx,
         int factoryIdx,
         List<Integer> robot,
-        List<Integer> factoryPositions
+        List<Integer> factoryPositions,
+        long[][] memo
     ) {
         // All robots assigned
         if (robotIdx == robot.size()) return 0;
         // No factories left to assign
         if (factoryIdx == factoryPositions.size()) return (long) 1e12;
+        // Check memo
+        if (memo[robotIdx][factoryIdx] != -1) return memo[robotIdx][factoryIdx];
 
         // Option 1: Assign current robot to current factory
         long assign =
@@ -35,7 +43,8 @@ class Solution {
                 robotIdx + 1,
                 factoryIdx + 1,
                 robot,
-                factoryPositions
+                factoryPositions,
+                memo
             );
 
         // Option 2: Skip current factory for the current robot
@@ -43,10 +52,12 @@ class Solution {
             robotIdx,
             factoryIdx + 1,
             robot,
-            factoryPositions
+            factoryPositions,
+            memo
         );
 
         // Take the minimum and store in memo
-        return Math.min(assign, skip);
+        memo[robotIdx][factoryIdx] = Math.min(assign, skip);
+        return memo[robotIdx][factoryIdx];
     }
 }
