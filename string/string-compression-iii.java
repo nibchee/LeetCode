@@ -16,6 +16,7 @@ class Solution {
             cmp=cmp+"9"+ch;
             d--;
            }
+           if(r!=0)
            cmp=cmp+(char)('0'+r)+ch;
            i=j;
           // System.out.println(cmp+" "+i+" "+j);
