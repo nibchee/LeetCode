@@ -8,7 +8,7 @@ class Solution {
         for(int i=0;i<guards.length;i++){
             int row=guards[i][0];
             int col=guards[i][1];
-
+            grid[row][col]=-1;
             for(int r=row-1;r>=0;r--){
                 if(grid[r][col]==1)
                 break;
@@ -41,6 +41,6 @@ class Solution {
                 ans++;
             }
         }
-    return ans-guards.length;
+    return ans;
     }
 }
