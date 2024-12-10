@@ -1,6 +1,6 @@
 class Solution {
     public int maximumLength(String s) {
-        HashMap<String,Integer> freq=new HashMap<>();
+        HashMap<Pair<Character, Integer>,Integer> freq=new HashMap<>();
         int i=0,j=0;
         int n=s.length();
         while(i<n && j<n){
@@ -12,8 +12,8 @@ class Solution {
            i=j;
         }
         int ans=-1;
-        for(Map.Entry<String,Integer> entry: freq.entrySet()){
-         int l=Integer.parseInt(entry.getKey().substring(1));
+        for(Map.Entry<Pair<Character, Integer>,Integer> entry: freq.entrySet()){
+         int l=entry.getKey().getValue();
          int count=entry.getValue();
          if(count>=3)
             ans=Math.max(ans,l);
@@ -22,11 +22,11 @@ class Solution {
         return ans;
     }
 
-    private void putSpecialStringFreq(HashMap<String,Integer> freq,char ch,int i,int j){
+    private void putSpecialStringFreq(HashMap<Pair<Character, Integer>,Integer> freq,char ch,int i,int j){
          int len=j-i;
          for(Integer k=1;k<=len;k++){
-            String str=ch+k.toString();
-           freq.put(str,freq.getOrDefault(str,0)+len-k+1);
+            Pair<Character, Integer> key = new Pair<>(ch,k);
+           freq.put(key,freq.getOrDefault(key,0)+len-k+1);
          }
     }
 }
