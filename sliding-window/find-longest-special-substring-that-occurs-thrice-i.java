@@ -1,32 +1,32 @@
 class Solution {
-
     public int maximumLength(String s) {
-        HashMap<String, Integer> count = new HashMap<>();
-
-        for (int start = 0; start < s.length(); start++) {
-            StringBuilder currString = new StringBuilder();
-
-            for (int end = start; end < s.length(); end++) {
-                if (
-                    currString.length() == 0 ||
-                    currString.charAt(currString.length() - 1) == s.charAt(end)
-                ) {
-                    currString.append(s.charAt(end)); 
-                    count.put(
-                        currString.toString(),
-                        count.getOrDefault(currString.toString(), 0) + 1
-                    );
-                } else {
-                    break;
-                }
-            }
+        HashMap<String,Integer> freq=new HashMap<>();
+        int i=0,j=0;
+        int n=s.length();
+        while(i<n && j<n){
+            char ch=s.charAt(i);
+           while(j<n && ch==s.charAt(j)){
+              j++;
+           }
+           putSpecialStringFreq(freq,ch,i,j);
+           i=j;
         }
-   int ans = 0;
-        for (String str : count.keySet()) {
-            if (count.get(str) >= 3 && str.length() > ans) ans = str.length();
-        }
-
-        if (ans == 0) return -1;
+        int ans=-1;
+        for(Map.Entry<String,Integer> entry: freq.entrySet()){
+         int l=Integer.parseInt(entry.getKey().substring(1));
+         int count=entry.getValue();
+         if(count>=3)
+            ans=Math.max(ans,l);
+         }
+        
         return ans;
+    }
+
+    private void putSpecialStringFreq(HashMap<String,Integer> freq,char ch,int i,int j){
+         int len=j-i;
+         for(Integer k=1;k<=len;k++){
+            String str=ch+k.toString();
+           freq.put(str,freq.getOrDefault(str,0)+len-k+1);
+         }
     }
 }
