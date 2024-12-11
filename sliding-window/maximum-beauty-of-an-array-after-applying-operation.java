@@ -8,6 +8,7 @@ class Solution {
             while(r<n && nums[r]-nums[l]<=2*k)
             r++;
             ans=Math.max(ans,r-l);
+            l++;
         }
         return ans;
     }
