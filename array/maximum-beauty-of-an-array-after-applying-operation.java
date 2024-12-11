@@ -1,12 +1,13 @@
 class Solution {
     public int maximumBeauty(int[] nums, int k) {
-        HashMap<Integer,Integer> f=new HashMap<>();
+        Arrays.sort(nums);
+        int r=0,l=0;
         int ans=0;
-        for(int i=0;i<nums.length;i++){
-            for(int j=nums[i]-k ;j<=nums[i]+k;j++){
-                f.put(j,f.getOrDefault(j,0)+1);
-                ans=Math.max(ans,f.get(j));
-            }
+        int n=nums.length;
+        while(l<n && r<n){
+            while(r<n && nums[r]-nums[l]<=2*k)
+            r++;
+            ans=Math.max(ans,r-l);
         }
         return ans;
     }
