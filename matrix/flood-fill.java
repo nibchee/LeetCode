@@ -1,20 +1,20 @@
 class Solution {
-    private void dfs(int [][]image,int cr, int cc,int color,int pixel_color){
-        //System.out.println(cr+" "+cc);
-     if(cr<0 || cc<0 || cr>image.length-1 || cc>image[cr].length-1 || image[cr][cc]==color || image[cr][cc]!=pixel_color){
-        return;
-     }
-    
-     image[cr][cc]=color;
-     dfs(image,cr,cc+1,color,pixel_color);
-     dfs(image,cr-1,cc,color,pixel_color);
-     dfs(image,cr,cc-1,color,pixel_color);
-     dfs(image,cr+1,cc,color,pixel_color);
-    }
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int pixel_color=image[sr][sc];
-        if(color!=pixel_color)
-        dfs(image,sr,sc,color,pixel_color);
+       // int oldcolor=image[sr][sc];
+        dfs(image,sr,sc,color);
         return image;
     }
+
+    private void dfs(int[][]img,int i,int j,int color){
+        if(i<0 || i>=img.length || j<0 || j>=img[0].length || img[i][j]==0 || img[i][j]==color)
+        return;
+
+        img[i][j]=color;
+        dfs(img,i-1,j,color);
+        dfs(img,i+1,j,color);
+        dfs(img,i,j-1,color);
+        dfs(img,i,j+1,color);
+    }
+
+
 }
