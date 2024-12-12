@@ -7,14 +7,17 @@ class Solution {
         int m = grid.length;
         int n = grid[0].length;
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < m; j++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1)
                     unrotten++;
                 if (grid[i][j] == 2)
                     rotten++;
             }
         }
-        if (unrotten == 0)
+        if (unrotten>0 && rotten==0)
+            return -1;
+
+            if(unrotten==0)
             return 0;
 
         int ans = 0;
