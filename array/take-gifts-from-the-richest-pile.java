@@ -6,7 +6,7 @@ class Solution {
         gifts[n-1]=(int)Math.sqrt(gifts[n-1]);
        } 
 
-       int rem=0;
+       long rem=0;
        for(int i=0;i<n;i++){
         rem+=gifts[i];
        }
