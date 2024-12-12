@@ -16,10 +16,11 @@ class Solution {
         }
         if (unrotten == 0)
             return 0;
+
         int ans = 0;
         int rot_mark = 3;
         while (true) {
-            int rotten2=rott(grid, 3,rotten);
+            int rotten2=rott(grid, rot_mark,rotten);
             if (unrotten == 0) {
                 return ans + 1;
             }
@@ -27,6 +28,7 @@ class Solution {
                 return -1;
             }
             ans++;
+            rot_mark++;
             rotten=rotten2;
         }
     }
@@ -34,7 +36,7 @@ class Solution {
     private int rott(int[][]grid,int mark,int rotten){
         for(int i=0;i<grid.length;i++){
             for(int j=0;j<grid[i].length;j++){
-                if(grid[i][j]!=0 && grid[i][j]!=1 && grid[i][j]==mark){
+                if(grid[i][j]!=0 && grid[i][j]!=1 && grid[i][j]!=mark){
                     if(i-1>=0 && grid[i-1][j]==1){
                         grid[i-1][j]=mark;
                         rotten++;
