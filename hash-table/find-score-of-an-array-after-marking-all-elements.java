@@ -1,35 +1,28 @@
 class Solution {
-
     public long findScore(int[] nums) {
-        long ans = 0;
-        boolean[] marked = new boolean[nums.length];
-
-        PriorityQueue<int[]> heap = new PriorityQueue<>((arr1, arr2) -> {
-            if (arr1[0] != arr2[0]) return arr1[0] - arr2[0];
-            return arr1[1] - arr2[1];
-        });
+        Queue<Pair<Integer, Integer>> minHeap = new PriorityQueue<>(
+                (p1, p2) -> {
+                    if (p1.getKey() == p2.getKey())
+                        return p1.getValue() - p2.getValue();
+                    return p1.getKey() - p2.getKey();
+                });
 
         for (int i = 0; i < nums.length; i++) {
-            heap.add(new int[] { nums[i], i });
+            minHeap.add(new Pair<>(nums[i], i));
         }
+        long sum = 0;
 
-        while (!heap.isEmpty()) {
-            int[] element = heap.remove();
-            int number = element[0];
-            int index = element[1];
-            if (!marked[index]) {
-                ans += number;
-                marked[index] = true;
-                // mark adjacent elements if they exist
-                if (index - 1 >= 0) {
-                    marked[index - 1] = true;
-                }
-                if (index + 1 < nums.length) {
-                    marked[index + 1] = true;
-                }
+        while (!minHeap.isEmpty()) {
+            Pair<Integer, Integer> p = minHeap.poll();
+            int val = p.getKey();
+            int idx= p.getValue();
+            if (nums[idx]!=-1) {
+                sum += val;
+                nums[idx] = -1;
+                if (idx - 1 >= 0)  nums[idx - 1] = -1;
+                if (idx + 1 < nums.length) nums[idx + 1] = -1;
             }
         }
-
-        return ans;
+        return sum;
     }
 }
