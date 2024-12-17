@@ -11,10 +11,10 @@ class Solution {
         );
 
         for (char ch : freq.keySet()) {
-            maxHeap.offer(ch);
+            maxHeap.add(ch);
         }
 
-        StringBuilder result = new StringBuilder();
+        String ans = "";
 
         while (!maxHeap.isEmpty()) {
             char ch = maxHeap.poll();
@@ -22,22 +22,22 @@ class Solution {
 
             int use = Math.min(count, repeatLimit);
             for (int i = 0; i < use; i++) {
-                result.append(ch);
+                ans+=ch;
             }
 
             freq.put(ch, count - use);
 
             if (freq.get(ch) > 0 && !maxHeap.isEmpty()) {
-                char nextCh = maxHeap.poll();
-                result.append(nextCh);
+                char nextCh = maxHeap.remove();
+                ans+=nextCh;
                 freq.put(nextCh, freq.get(nextCh) - 1);
                 if (freq.get(nextCh) > 0) {
-                    maxHeap.offer(nextCh);
+                    maxHeap.add(nextCh);
                 }
-                maxHeap.offer(ch);
+                maxHeap.add(ch);
             }
         }
 
-        return result.toString();
+        return ans;
     }
 }
