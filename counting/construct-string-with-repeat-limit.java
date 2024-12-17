@@ -17,7 +17,7 @@ class Solution {
         String ans = "";
 
         while (!maxHeap.isEmpty()) {
-            char ch = maxHeap.remove();
+            char ch = maxHeap.poll();
             int count = freq.get(ch);
 
             int use = Math.min(count, repeatLimit);
@@ -28,7 +28,7 @@ class Solution {
             freq.put(ch, count - use);
 
             if (freq.get(ch) > 0 && !maxHeap.isEmpty()) {
-                char nextCh = maxHeap.remove();
+                char nextCh = maxHeap.poll();
                 ans+=nextCh;
                 freq.put(nextCh, freq.get(nextCh) - 1);
                 if (freq.get(nextCh) > 0) {
