@@ -1,43 +1,43 @@
 class Solution {
+
     public String repeatLimitedString(String s, int repeatLimit) {
-        int freq[]=new int[26];
-        for(char ch: s.toCharArray()){
-            freq[ch-'a']++;
-            //System.out.println(ch+" "+freq[ch-'a']+" ");
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char ch : s.toCharArray()) {
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
         }
-        String ans="";
-        for(int i=25;i>=0;){
-            while(i>=0 && freq[i]==0)
-            i--;
-            if(i<0)
-            break;
-            int f=freq[i];
-            int apend=f;
-            if(ans.length()>0 && ans.charAt(ans.length()-1)==(char)('a'+i))
-            break;
-            if(f>repeatLimit){
-                freq[i]=f-repeatLimit;
-                apend=repeatLimit;
-            }else{
-                freq[i]=0;
+
+        PriorityQueue<Character> maxHeap = new PriorityQueue<>((a, b) ->
+            Character.compare(b, a)
+        );
+
+        for (char ch : freq.keySet()) {
+            maxHeap.offer(ch);
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        while (!maxHeap.isEmpty()) {
+            char ch = maxHeap.poll();
+            int count = freq.get(ch);
+
+            int use = Math.min(count, repeatLimit);
+            for (int i = 0; i < use; i++) {
+                result.append(ch);
             }
 
-            for(int k=0;k<apend;k++){
-              ans+=(char)('a'+i);
-            }
-           // System.out.println(ans+" "+freq[i]);
-            if(freq[i]==0)continue;
-            
-            int j=i-1;
-            while(j>=0 && freq[j]==0){
-                j--;
-            }
+            freq.put(ch, count - use);
 
-            if(j>=0){
-                ans+=(char)('a'+j);
-                freq[j]--;
+            if (freq.get(ch) > 0 && !maxHeap.isEmpty()) {
+                char nextCh = maxHeap.poll();
+                result.append(nextCh);
+                freq.put(nextCh, freq.get(nextCh) - 1);
+                if (freq.get(nextCh) > 0) {
+                    maxHeap.offer(nextCh);
+                }
+                maxHeap.offer(ch);
             }
         }
-        return ans;
+
+        return result.toString();
     }
 }
