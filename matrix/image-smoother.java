@@ -12,7 +12,7 @@ class Solution {
             for(int direction[]: directions){
                 int x=i+direction[0];
                 int y=j+direction[1];
-                if(x>=0 && y>=0 && x<m && y<m){
+                if(x>=0 && y>=0 && x<m && y<n){
                 sum+=img[x][y];
                 count++;
                 }
