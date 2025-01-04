@@ -20,7 +20,7 @@ class Solution {
          int index=map.higherKey(randInt);
          int[] rectChoosen=rects[map.get(index)];
          int x=rectChoosen[0]+(index-randInt-1)%(rectChoosen[2]-rectChoosen[0]+1);
-         int y=rectChoosen[0]+(index-randInt-1)/(rectChoosen[2]-rectChoosen[0]+1);
+         int y=rectChoosen[1]+(index-randInt-1)/(rectChoosen[2]-rectChoosen[0]+1);
          return new int[]{x,y};
          
     }
