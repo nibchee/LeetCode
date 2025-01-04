@@ -1,14 +1,15 @@
 class Solution {
     public int minMoves2(int[] nums) {
-        long sum=0;
-        for(int num:nums){
-            sum+=num;
-        }
-        int avg=(int)(sum/nums.length);
-        int ans=0;
-        for(int num:nums){
-            ans+=Math.abs(num-avg);
-        }
-        return ans;
+       Arrays.sort(nums);
+       int n=nums.length;
+       int i=0;
+       int j=n-1;
+       int count=0;
+       while(i<j){
+        count+=Math.abs(nums[j]-nums[i]);
+        i++;
+        j--;
+       }
+       return count;
     }
 }
