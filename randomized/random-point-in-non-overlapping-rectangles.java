@@ -1,28 +1,41 @@
 class Solution {
-      Random rand=null;
-      TreeMap<Integer, Integer> map=null;
-      int [][]rects;
-      int area;
+    int sums[];
+    Random rand=new Random();
+    int arrs[][];
     public Solution(int[][] rects) {
-        rand=new Random();
-        map=new TreeMap<>();
-        this.rects=rects;
-        for(int i=0;i<rects.length;i++){
-            int currArea=(rects[i][2]-rects[i][0]+1)*(rects[i][3]-rects[i][1]+1);
-            area+=currArea;
-            map.put(area,i);
+        this.sums=new int[rects.length];
+        arrs=rects;
+        int sum=0;
+        for(int i=0;i<arrs.length;i++){
+            int rect[]=arrs[i];
+            sum+=(rect[2]-rect[0]+1)*(rect[3]-rect[1]+1);
+            sums[i]=sum;
         }
-
     }
     
     public int[] pick() {
-         int randInt=rand.nextInt(area);
-         int index=map.higherKey(randInt);
-         int[] rectChoosen=rects[map.get(index)];
-         int x=rectChoosen[0]+(index-randInt-1)%(rectChoosen[2]-rectChoosen[0]+1);
-         int y=rectChoosen[1]+(index-randInt-1)/(rectChoosen[2]-rectChoosen[0]+1);
-         return new int[]{x,y};
-         
+        int target=rand.nextInt(sums[sums.length-1]);
+        int low=0;
+        int high=sums.length-1;
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(sums[mid]<target){
+                high=mid;
+            }else{
+                low=mid+1;
+            }
+        }
+        return pickFromRect(arrs[low]);
+
+    }
+
+    private int[] pickFromRect(int rect[]){
+        int left=rect[0];
+        int right=rect[2];
+        int top=rect[3];
+        int bottom=rect[1];
+
+        return new int[]{left+rand.nextInt(right-left+1), bottom+rand.nextInt(top-bottom+1)};
     }
 }
 
