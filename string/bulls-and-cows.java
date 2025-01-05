@@ -1,35 +1,31 @@
 class Solution {
     public String getHint(String secret, String guess) {
-       HashMap<Character,ArrayList<Integer>> pos=new HashMap<>();
-
+       HashMap<Character,Integer> map=new HashMap<>();
+      int cows=0;
+      int bulls=0;
+    
        for(int i=0;i<secret.length();i++){
         char ch=secret.charAt(i);
-        ArrayList<Integer> s=pos.getOrDefault(ch,new ArrayList<>());
-        s.add(i);
-        pos.put(ch,s);
+        if(ch==guess.charAt(i))
+        bulls++;
+        else{
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
        }
         
-    Integer cows=0;
-    Integer bulls=0;
        for(int i=0;i<guess.length();i++){
         char ch=guess.charAt(i);
-        if(pos.containsKey(ch)){
-            ArrayList<Integer> s=pos.get(ch);
-            if(s.contains(i)){
-              s.remove(new Integer(i));
-              bulls++;  
-             
+        if(secret.charAt(i)==ch)
+        continue;
+        if(map.containsKey(ch) && map.get(ch)>0){
+            cows++;
+            if(map.get(ch)-1==0){
+                map.remove(ch);
             }else{
-                s.remove(s.size()-1);
-                cows++;
-    
+                map.put(ch,map.get(ch)-1);
             }
-             if(s.size()>0)
-              pos.put(ch,s);
-              else
-              pos.remove(ch);
         }
-
+        
        }
        return Integer.toString(bulls)+'A'+Integer.toString(cows)+'B';
     }
