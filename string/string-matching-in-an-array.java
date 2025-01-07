@@ -4,8 +4,11 @@ class Solution {
         for(int i=0;i<words.length;i++){
             for(int j=0;j<words.length;j++){
                 if(i==j)continue;
-                if(words[j].indexOf(words[i])>-1)
+                if(words[j].indexOf(words[i])>-1){
+                //System.out.println(words[i]+" "+words[j]);
                 ans.add(words[i]);
+                break;
+                }
 
             }
         }
