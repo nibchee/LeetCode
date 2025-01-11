@@ -1,5 +1,6 @@
 class Solution {
     public boolean canConstruct(String s, int k) {
+        if(s.length()<k) return false;
         int freq[]=new int[26];
         for(char ch:s.toCharArray()){
             freq[ch-'a']++;
@@ -18,8 +19,8 @@ class Solution {
       return false;
 
       
-    if(o<k && e+o<k)
-    return false;
+    // if(o<k && e+o<k)
+    // return false;
 
       return true;
     }
