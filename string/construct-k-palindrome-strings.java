@@ -13,6 +13,14 @@ class Solution {
             o++;
             }
         }
-       return o<=k;
+      boolean ans=false;
+      if(o>k)
+      return false;
+
+      
+    if(o<k && e+o<k)
+    return false;
+
+      return true;
     }
 }
