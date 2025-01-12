@@ -7,7 +7,11 @@ class Solution {
             if(s.charAt(i)==')' && !st.isEmpty() && (s.charAt(st.peek())=='('||locked.charAt(st.peek())=='0')){
               st.pop();
             }else{
+                if(!st.isEmpty() && locked.charAt(i)=='0'){
+                    st.pop();
+                }else{
                 st.push(i);
+                }
             }
 
         }
