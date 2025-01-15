@@ -13,8 +13,9 @@ class Solution {
        q2.addAll(q);
        int ans[]=new int[k];
          int i=0;
-         while(!q.isEmpty()){
-            int[] e=q.remove();
+         while(!q2.isEmpty()){
+            int[] e=q2.remove();
+            //System.out.println(e[0]+" "+e[1]);
             ans[i++]=e[0];
          }
        return ans;
