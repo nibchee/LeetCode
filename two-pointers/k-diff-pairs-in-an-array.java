@@ -8,19 +8,23 @@ class Solution {
           HashSet<Integer> s=pairs.get(nums);
                
            if(pairs.containsKey(num_plusK)){
+               if(pairs.get(num_plusK)==null || !pairs.get(num_plusK).contains(num)){
                if(s==null){
                 s=new HashSet<>();
                }
               s.add(num_plusK);
                pairs.put(num,s);
+               }
            }
 
            if(pairs.containsKey(num_minusK)){
+            if(pairs.get(num_minusK)==null || !pairs.get(num_minusK).contains(num)){
                if(s==null){
                 s=new HashSet<>();
                }
               s.add(num_minusK);
                pairs.put(num,s);
+            }
            }
 
            if(s==null)
