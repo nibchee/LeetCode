@@ -1,18 +1,50 @@
 class Solution {
-    public int findMaxFish(int[][] grid) {
-        int ans=0;
-        int m=grid.length;
-        int n=grid[0].length;
 
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                int a1=(i+1)<m?grid[i][j]+grid[i+1][j]:grid[i][j];
-                int a2=(i-1)>=0?grid[i][j]+grid[i-1][j]:grid[i][j];
-                int a3=(j+1)<n?grid[i][j]+grid[i][j+1]:grid[i][j];
-                int a4=(j-1)>=0?grid[i][j]+grid[i][j-1]:grid[i][j];
-                ans=Math.max(ans,Math.max(Math.max(a1,a2),Math.max(a3,a4)));
+    private int calculateFishes(
+        int[][] grid,
+        boolean[][] visited,
+        int row,
+        int col
+    ) {
+        if (
+            row < 0 ||
+            row >= grid.length ||
+            col < 0 ||
+            col >= grid[0].length ||
+            grid[row][col] == 0 ||
+            visited[row][col]
+        ) {
+            return 0;
+        }
+
+        visited[row][col] = true;
+
+        return (
+            grid[row][col] +
+            calculateFishes(grid, visited, row, col + 1) +
+            calculateFishes(grid, visited, row, col - 1) +
+            calculateFishes(grid, visited, row + 1, col) +
+            calculateFishes(grid, visited, row - 1, col)
+        );
+    }
+
+    public int findMaxFish(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        int maxFishCount = 0;
+
+        boolean[][] visited = new boolean[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (grid[row][col] > 0 && !visited[row][col]) {
+                    maxFishCount = Math.max(
+                        maxFishCount,
+                        calculateFishes(grid, visited, row, col)
+                    );
+                }
             }
         }
-    return ans;
+
+        return maxFishCount;
     }
 }
