@@ -9,7 +9,7 @@ class Solution {
             }
 
             if((nums[i]+dq.size())%2==0){
-                if(i+2>nums.length){
+                if(i+2>=nums.length){
                     return -1;
                 }
                 c++;
