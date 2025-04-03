@@ -14,7 +14,7 @@ class Solution {
 
         long ans=0l;
         for(int i=1;i<n-1;i++){
-            ans=Math.max(ans,(prefix[i-1]-nums[i])*suffix[i+1]);
+            ans=Math.max(ans,(long)(prefix[i-1]-nums[i])*(long)suffix[i+1]);
         }
         return ans;
     }
