@@ -5,7 +5,7 @@ class Solution {
         int n=secondList.length;
         ArrayList<int[]> ans=new ArrayList<>();
 
-    while(i<n && j<m){
+    while(i<m && j<n){
             if(secondList[j][1]>=firstList[i][0] && secondList[j][1]<=firstList[i][1]){
                int[] overlapp=new int[]{Math.max(firstList[i][0],secondList[j][0]),Math.min(firstList[i][1],secondList[j][1])};
                ans.add(overlapp);
@@ -20,6 +20,7 @@ class Solution {
                 else
                 j++;
             }
+           // System.out.println(j);
         }
    int [][]finalAns=new int[ans.size()][2];
    for(int z=0;z<ans.size();z++){
