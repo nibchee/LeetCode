@@ -5,23 +5,22 @@ class Solution {
         int n=secondList.length;
         ArrayList<int[]> ans=new ArrayList<>();
 
-     while (i < n && j < m) {
-    int start = Math.max(firstList[i][0], secondList[j][0]);
-    int end = Math.min(firstList[i][1], secondList[j][1]);
-
-    if (start <= end) {
-        // There is an overlap
-        int[] overlap = new int[]{start, end};
-        ans.add(overlap);
-    }
-
-    // Move the pointer with the smaller end time
-    if (firstList[i][1] < secondList[j][1]) {
-        i++;
-    } else {
-        j++;
-    }
-}
+    while(i<n && j<m){
+            if(secondList[j][1]>=firstList[i][0] && secondList[j][1]<=firstList[i][1]){
+               int[] overlapp=new int[]{Math.max(firstList[i][0],secondList[j][0]),Math.min(firstList[i][1],secondList[j][1])};
+               ans.add(overlapp);
+               j++;
+            }else if(secondList[j][0]>=firstList[i][0] && secondList[j][0]<=firstList[i][1]){
+                 int[] overlapp=new int[]{Math.max(firstList[i][0],secondList[j][0]),Math.min(firstList[i][1],secondList[j][1])};
+               ans.add(overlapp);
+               i++;
+            }else{
+                if(firstList[i][1]<secondList[j][0])
+                i++;
+                else
+                j++;
+            }
+        }
    int [][]finalAns=new int[ans.size()][2];
    for(int z=0;z<ans.size();z++){
      finalAns[z]=ans.get(z);
