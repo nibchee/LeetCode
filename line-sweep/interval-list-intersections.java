@@ -6,22 +6,18 @@ class Solution {
         ArrayList<int[]> ans=new ArrayList<>();
 
     while(i<m && j<n){
-            if(secondList[j][1]>=firstList[i][0] && secondList[j][1]<=firstList[i][1]){
-               int[] overlapp=new int[]{Math.max(firstList[i][0],secondList[j][0]),Math.min(firstList[i][1],secondList[j][1])};
-               ans.add(overlapp);
-               j++;
-            }else if(secondList[j][0]>=firstList[i][0] && secondList[j][0]<=firstList[i][1]){
-                 int[] overlapp=new int[]{Math.max(firstList[i][0],secondList[j][0]),Math.min(firstList[i][1],secondList[j][1])};
-               ans.add(overlapp);
-               i++;
-            }else{
-                if(firstList[i][1]<secondList[j][0])
+        int s=Math.max(firstList[i][0],secondList[j][0]);
+        int e=Math.min(firstList[i][1],secondList[j][1]);
+            if(s<=e){
+                ans.add(new int[]{s,e});
+            }
+            
+                if(firstList[i][1]<secondList[j][1])
                 i++;
                 else
                 j++;
             }
-           // System.out.println(j);
-        }
+        
    int [][]finalAns=new int[ans.size()][2];
    for(int z=0;z<ans.size();z++){
      finalAns[z]=ans.get(z);
