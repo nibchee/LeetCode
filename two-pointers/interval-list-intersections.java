@@ -1,26 +1,33 @@
 class Solution {
     public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
-        LinkedList<int[]> intersections=new LinkedList<>();
+        int i=0,j=0;
+        int m=firstList.length;
+        int n=secondList.length;
+        ArrayList<int[]> ans=new ArrayList<>();
 
-        int A=0,B=0;
-        while(A<firstList.length && B<secondList.length){
-            int mS=Math.max(firstList[A][0],secondList[B][0]);
-            int mE=Math.min(firstList[A][1],secondList[B][1]);
-           //checking if overlapped
-           //let A-[1,3]  B[4,6]  then ms-4  mE=[3] [4,3] is not an intersection
-            if(mS<=mE)
-            intersections.add(new int[]{mS,mE});
+     while (i < n && j < m) {
+    int start = Math.max(firstList[i][0], secondList[j][0]);
+    int end = Math.min(firstList[i][1], secondList[j][1]);
 
-            //incrementing Pointers , with which is less,
-            //NOTE: not correct way
-            //if(firstList[A][1]<=secondList[B][1])A++;
-            //if(firstList[A][1]>=secondList[B][1])B++;
-          
-            //correct way
-            if(firstList[A][1]<=mE)A++;
-            if(mE>=secondList[B][1])B++;
-        
-        } 
-        return intersections.toArray(new int[intersections.size()][2]);
+    if (start <= end) {
+        // There is an overlap
+        int[] overlap = new int[]{start, end};
+        ans.add(overlap);
     }
+
+    // Move the pointer with the smaller end time
+    if (firstList[i][1] < secondList[j][1]) {
+        i++;
+    } else {
+        j++;
+    }
+}
+   int [][]finalAns=new int[ans.size()][2];
+   for(int z=0;z<ans.size();z++){
+     finalAns[z]=ans.get(z);
+   }
+   return finalAns;
+    }
+
+
 }
