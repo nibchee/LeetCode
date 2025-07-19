@@ -1,17 +1,25 @@
 class Solution {
-     public List<String> removeSubfolders(String[] folder) {
+
+    public List<String> removeSubfolders(String[] folder) {
+        // Sort the folders alphabetically
         Arrays.sort(folder);
-        List<String> ans = new ArrayList<>();
-        ans.add(folder[0]);
-       
-        for (int i = 1; i < folder.length; ++i) {
-            int m = ans.get(ans.size() - 1).length();
-            int n = folder[i].length();
-            if (m >= n
-                || !(ans.get(ans.size() - 1).equals(folder[i].substring(0, m))
-                    && folder[i].charAt(m) == '/')) {
-                ans.add(folder[i]);
+
+        // Initialize the result list and add the first folder
+        List<String> result = new ArrayList<>();
+        result.add(folder[0]);
+
+        // Iterate through each folder and check if it's a sub-folder of the last added folder in the result
+        for (int i = 1; i < folder.length; i++) {
+            String lastFolder = result.get(result.size() - 1);
+            lastFolder += '/';
+
+            // Check if the current folder starts with the last added folder path
+            if (!folder[i].startsWith(lastFolder)) {
+                result.add(folder[i]);
             }
         }
-        return ans;
-    }}
+
+        // Return the result containing only non-sub-folders
+        return result;
+    }
+}
