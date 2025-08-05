@@ -21,9 +21,7 @@ class Solution {
     }
 
     public long popcountDepth(long n, int k) {
-    if (k == 1)
-        return 1;
-
+     if(n==1 && k==0) return 1;
     int max = (int) Math.min(n + 2, Integer.MAX_VALUE);
     cd = new long[max];
     cd[0] = cd[1] = 0;
@@ -31,6 +29,7 @@ class Solution {
     long ans = 0;
     for (int i = 2; i <= n; i++) {
         cd[i] = computeDepth(i);
+        //System.out.println(i+" N "+cd[i]);
         if (cd[i] == k)
             ans++;
     }
