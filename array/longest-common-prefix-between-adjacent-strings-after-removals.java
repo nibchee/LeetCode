@@ -1,7 +1,7 @@
 class Solution {
-    public int getPrefixLength(String s1, String s2) {
-        int i = 0;
+    private int getPrefixLength(String s1, String s2) {
         int minLength = Math.min(s1.length(), s2.length());
+        int i = 0;
         while (i < minLength && s1.charAt(i) == s2.charAt(i)) {
             i++;
         }
@@ -10,42 +10,37 @@ class Solution {
 
     public int[] longestCommonPrefix(String[] words) {
         int n = words.length;
-        int[][] longPrefix = new int[n - 1][2];
+        if (n <= 1) return new int[n];
 
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        int[] adj = new int[n - 1];           
+           int[] skip = new int[n - 2];     
 
         for (int i = 0; i < n - 1; i++) {
-            longPrefix[i][0] = getPrefixLength(words[i], words[i + 1]);
-            if (i + 2 < n) {
-                longPrefix[i][1] = getPrefixLength(words[i], words[i + 2]);
-            } else {
-                longPrefix[i][1] = 0;
-            }
-            maxHeap.add(longPrefix[i][0]);
-            // maxHeap.add(longPrefix[i][1]);
+            adj[i] = getPrefixLength(words[i], words[i + 1]);
+            if (i + 2 < n) skip[i] = getPrefixLength(words[i], words[i + 2]);
+        }
+
+        int[] leftMax = new int[n - 1];
+        leftMax[0] = adj[0];
+        for (int i = 1; i < n - 1; i++) {
+            leftMax[i] = Math.max(leftMax[i - 1], adj[i]);
+        }
+
+        int[] rightMax = new int[n - 1];
+        rightMax[n - 2] = adj[n - 2];
+        for (int i = n - 3; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i + 1], adj[i]);
         }
 
         int[] ans = new int[n];
-        for (int i = 0; i < longPrefix.length; i++) {
-            //System.out.println(longPrefix[i][0] + " " + longPrefix[i][1]);
-            if (i - 1 >= 0) {
-                maxHeap.remove(longPrefix[i - 1][0]);
-                maxHeap.add(longPrefix[i - 1][1]);
-            }
-            maxHeap.remove(longPrefix[i][0]);
-
-            ans[i] = maxHeap.peek() != null ? maxHeap.peek() : 0;
-            if (i - 1 >= 0) {
-                maxHeap.add(longPrefix[i - 1][0]);
-                maxHeap.remove(longPrefix[i - 1][1]);
-            }
-            maxHeap.add(longPrefix[i][0]);
-
+        for (int i = 0; i < n; i++) {
+            int best = 0;
+            if (i > 0) best = Math.max(best, rightMax[0] == adj[i - 1] && n > 2 ? (i > 1 ? leftMax[i - 2] : 0) : leftMax[i - 1]);
+            if (i < n - 1) best = Math.max(best, i < n - 2 ? rightMax[i + 1] : 0);
+            if (i > 0 && i < n - 1) best = Math.max(best, skip[i - 1]);
+            ans[i] = best;
         }
-        if(n>1)
-        maxHeap.remove(longPrefix[n-2][0]);
-        ans[n - 1] = maxHeap.peek() != null ? maxHeap.peek() : 0;
+
         return ans;
     }
-
 }
