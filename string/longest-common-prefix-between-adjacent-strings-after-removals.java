@@ -42,6 +42,7 @@ class Solution {
             maxHeap.add(longPrefix[i][0]);
 
         }
+        if(n>1)
         maxHeap.remove(longPrefix[n-2][0]);
         ans[n - 1] = maxHeap.peek() != null ? maxHeap.peek() : 0;
         return ans;
