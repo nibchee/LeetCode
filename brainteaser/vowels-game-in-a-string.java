@@ -5,6 +5,6 @@ class Solution {
             if(c=='a'||c=='e'||c=='i'||c=='o'||c=='u')
             cnt++;
         }
-        return (cnt!=0 && cnt%2==0);
+        return (cnt!=0 && (cnt%2==0 || (cnt%2==1 && s.length()>cnt)));
     }
 }
