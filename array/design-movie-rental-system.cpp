@@ -1,77 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class MovieRentingSystem {
+    // available[movie] = set of (price, shop)
+    unordered_map<int, set<pair<int,int>>> available;
+    // rented = set of (price, shop, movie) ordered lexicographically -> price, shop, movie
+    set<tuple<int,int,int>> rented;
+    // price lookup: pack (shop, movie) into 64-bit key -> price
+    unordered_map<long long,int> priceOf;
+
+    static long long keyOf(int shop, int movie) {
+        return ( (long long)shop << 32 ) | (unsigned long long)movie;
+    }
+
 public:
-    struct Comparator {
-    bool operator()(const pair<int, pair<int,int>>& p1,
-                    const pair<int, pair<int,int>>& p2) const {
-        if (p1.first == p2.first) {
-            if (p1.second.first == p2.second.first)
-                return p1.second.second > p2.second.second; // typo fixed
-            return p1.second.first > p2.second.first;
-        }
-        return p1.first > p2.first;
-    }
-};
-
-    map<int,set<pair<int,int>>>m_movie;
-    map<pair<int,int>, int>findPrice;
-    map<pair<int,int>, int>rentp;
-    priority_queue<pair<int, pair<int,int>>, vector<pair<int, pair<int,int>>>, Comparator>pq;
     MovieRentingSystem(int n, vector<vector<int>>& entries) {
-        for(int i=0;i<entries.size();i++){
-            m_movie[entries[i][1]].insert({entries[i][2], entries[i][0]});
-            findPrice[{entries[i][0], entries[i][1]}] = entries[i][2];
+        for (auto &e : entries) {
+            int shop = e[0], movie = e[1], price = e[2];
+            available[movie].insert({price, shop});
+            priceOf[keyOf(shop, movie)] = price;
         }
     }
-    
+
     vector<int> search(int movie) {
-        vector<int>a;
-        int c=0;
-        set<pair<int, int>> ans= m_movie[movie];
-        for(auto i: ans){
-            c++;
-            a.push_back(i.second);
-            if(c==5)
-                break;
+        vector<int> res;
+        auto it = available.find(movie);
+        if (it == available.end()) return res;
+        int c = 0;
+        for (auto itr = it->second.begin(); itr != it->second.end() && c < 5; ++itr, ++c) {
+            res.push_back(itr->second); // itr->second is shop
         }
-        return a;
+        return res;
     }
-    
+
     void rent(int shop, int movie) {
-        int price=findPrice[{shop, movie}];
-        rentp[{shop, movie}] = price;
-        pq.push({price,{shop, movie}});
-    }
-    
-    void drop(int shop, int movie) {
-        rentp.erase({shop, movie});
-       
-    }
-    
-    vector<vector<int>> report() {
-    vector<vector<int>> ans;
-    int c = 0;
-
-    while (!pq.empty() && c < 5) {
-        pair<int, pair<int,int>> p = pq.top();
-        pq.pop();
-
-        // assuming rentp is a map<pair<int,int>, bool>
-        if (rentp[p.second]) {
-            ans.push_back({p.second.first, p.second.second});
-            c++;
+        long long k = keyOf(shop, movie);
+        int price = priceOf[k];
+        // remove from available
+        auto it = available.find(movie);
+        if (it != available.end()) {
+            it->second.erase({price, shop});
+            // if set becomes empty we may optionally erase the key to save memory:
+            if (it->second.empty()) available.erase(it);
         }
+        // insert into rented
+        rented.insert({price, shop, movie});
     }
 
-    return ans;
-}
+    void drop(int shop, int movie) {
+        long long k = keyOf(shop, movie);
+        int price = priceOf[k];
+        // remove from rented
+        rented.erase({price, shop, movie});
+        // add back to available
+        available[movie].insert({price, shop});
+    }
 
+    vector<vector<int>> report() {
+        vector<vector<int>> ans;
+        int c = 0;
+        for (auto it = rented.begin(); it != rented.end() && c < 5; ++it, ++c) {
+            int price, shop, movie;
+            tie(price, shop, movie) = *it;
+            ans.push_back({shop, movie});
+        }
+        return ans;
+    }
 };
-
-/**
- * Your MovieRentingSystem object will be instantiated and called as such:
- * MovieRentingSystem* obj = new MovieRentingSystem(n, entries);
- * vector<int> param_1 = obj->search(movie);
- * obj->rent(shop,movie);
- * obj->drop(shop,movie);
- * vector<vector<int>> param_4 = obj->report();
- */
